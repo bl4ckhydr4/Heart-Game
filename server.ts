@@ -3,6 +3,7 @@ import { createServer as createViteServer } from "vite";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import path from "path";
+import { RoomManager } from "./src/server/room-manager";
 
 async function startServer() {
   const app = express();
@@ -12,6 +13,8 @@ async function startServer() {
   });
   const PORT = 3000;
 
+  const roomManager = new RoomManager(io);
+
   // API routes
   app.get("/api/health", (req, res) => {
     res.json({ status: "ok", game: "HEARTS: THE BLACK TABLE" });
@@ -19,11 +22,10 @@ async function startServer() {
 
   // Socket.IO logic
   io.on("connection", (socket) => {
-    console.log("Player connected:", socket.id);
+    const playerName = socket.handshake.query.playerName as string || "Anonymous";
+    console.log("Player connected:", socket.id, playerName);
     
-    socket.on("disconnect", () => {
-      console.log("Player disconnected:", socket.id);
-    });
+    roomManager.handleJoin(socket, playerName);
   });
 
   // Vite middleware for development
