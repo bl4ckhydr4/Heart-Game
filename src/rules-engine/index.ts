@@ -8,7 +8,7 @@ export function createDeck(): Card[] {
   for (const suit of SUITS) {
     for (let i = 0; i < RANKS.length; i++) {
       deck.push({
-        id: \`\${RANKS[i]}_\${suit}\`,
+        id: `${RANKS[i]}_${suit}`,
         suit,
         rank: RANKS[i],
         value: i + 2,

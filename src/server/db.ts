@@ -10,7 +10,7 @@ if (!fs.existsSync(dbDir)) {
 const db = new Database(path.join(dbDir, 'hearts.db'));
 
 // Initialize schema
-db.exec(\`
+db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     display_name TEXT NOT NULL,
@@ -23,6 +23,6 @@ db.exec(\`
     seed TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );
-\`);
+`);
 
 export default db;
